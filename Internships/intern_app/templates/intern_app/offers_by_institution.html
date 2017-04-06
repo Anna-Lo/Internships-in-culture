@@ -1,0 +1,24 @@
+{% extends 'intern_app/base.html' %}
+
+
+{% block content %}
+<h2>Oferty stażowe: {{ institution.name }} </h2>
+
+
+<ul>
+      {% for offer in offers %}
+        <li><a href="{% url 'offer-info' offer_id=offer.id %}">{{ offer.name }}</a></li>
+      {% empty %}
+        pusto
+      {% endfor %}
+</ul>
+
+{% if user.is_authenticated %}
+  <strong>Zalogowany: </strong>{{ user }} </br>
+  <a href="{% url 'logout' %}">Wyloguj</a>
+{% else %}
+    <strong><a href="{% url 'login' %}">Zaloguj</a></strong>
+{% endif %}
+
+
+{% endblock %}

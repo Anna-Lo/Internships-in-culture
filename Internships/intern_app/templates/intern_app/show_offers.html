@@ -1,0 +1,25 @@
+{% extends 'intern_app/base.html' %}
+
+
+{% block content %}
+<h2>Dostępne staże: </h2>
+
+<p>Jeśli chcesz dodać ofertę stażową <a href="{% url 'add-offer' %}">zrób to tutaj</a> (musisz być zalogowany)</p>
+
+<ul>
+      {% for offer in offers %}
+        <li><a href="{% url 'offer-info' offer_id=offer.id %}">{{ offer.name }}</a>, {{ offer.institution.name }}, {{ offer.institution.city }}</li>
+      {% empty %}
+        pusto
+      {% endfor %}
+</ul>
+
+{% if user.is_authenticated %}
+  <strong>Zalogowany: </strong>{{ user }} </br>
+  <a href="{% url 'logout' %}">Wyloguj</a>
+{% else %}
+    <strong><a href="{% url 'login' %}">Zaloguj</a></strong>
+{% endif %}
+
+
+{% endblock %}

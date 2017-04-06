@@ -1,0 +1,25 @@
+{% extends 'intern_app/base.html' %}
+
+
+{% block content %}
+<h2>Instytucje oferujące aktualnie staże: </h2>
+
+<p>Jeśli Twojej instytucji nie ma jeszcze w bazie <a href="{% url 'add-institution' %}">dodaj ją tutaj</a> (musisz być zalogowany)</p>
+
+<ul>
+      {% for institution in institutions %}
+        <li><a href="{% url 'institution-info' institution_id=institution.id %}">{{ institution.name }}</a>, {{ institution.city }} </li>
+      {% empty %}
+        pusto
+      {% endfor %}
+</ul>
+
+{% if user.is_authenticated %}
+  <strong>Zalogowany: </strong>{{ user }} </br>
+  <a href="{% url 'logout' %}">Wyloguj</a>
+{% else %}
+    <strong><a href="{% url 'login' %}">Zaloguj</a></strong>
+{% endif %}
+
+
+{% endblock %}

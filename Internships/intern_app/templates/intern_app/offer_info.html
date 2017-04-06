@@ -1,0 +1,31 @@
+{% extends 'intern_app/base.html' %}
+
+
+{% block content %}
+<h3>{{offer.institution.name}}</h3>
+
+<ol>
+    <p>Nazwa stanowiska lub projektu: <strong>{{ offer.name }} </strong></p>
+    <p>Początek stażu: {{ offer.data_start }} </p>
+    <p>Koniec stażu: {{ offer.data_end }} </p>
+    <p>Liczba godzin: {{ offer.offer_hours }} </p>
+    <p>Zakres zadań: {{ offer.duties }} </p>
+    <p>Cel stażu: {{ offer.goal }} </p>
+    <p>Umiejętności, jakie nabędzie stażysta: {{ offer.skills }} </p>
+    <p>Preferowany kierunek studiów: {{ offer.get_studies_display }} {{ offer.get_studies_other_display }}</p>
+
+    {% if user == offer.institution.user %}
+    <a href="{% url 'add-offer' %}">Dodaj nową ofertę</a>
+    {% endif %}
+
+
+</ol>
+
+{% if user.is_authenticated %}
+  <strong>Zalogowany: </strong>{{ user }} </br>
+  <a href="{% url 'logout' %}">Wyloguj</a>
+{% else %}
+    <strong><a href="{% url 'login' %}">Zaloguj</a></strong>
+{% endif %}
+
+{% endblock %}

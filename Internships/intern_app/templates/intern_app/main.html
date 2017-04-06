@@ -1,0 +1,21 @@
+{% extends 'intern_app/base.html' %}
+
+
+{% block content %}
+
+      <p><a href="{% url 'show-institutions' %}">Wyświetl instytucje kultury oferujące aktualnie staże</a></p>
+      <p><a href="{% url 'add-institution' %}">Dodaj swoją instytucję</a></p>
+      {% comment %}
+        <p><a href="{% url '' %}">Wyświetl aktualne oferty staży</a></p>
+        <p><a href="{% url '' %}">Dodaj ofertę stażu do swojej instytucji</a></p>
+      {%  endcomment %}
+
+    {% if user.is_authenticated %}
+      <strong>Zalogowany: </strong>{{ user }} </br>
+      <a href="{% url 'logout' %}">Wyloguj</a>
+    {% else %}
+        <strong><a href="{% url 'login' %}">Zaloguj</a></strong>
+    {% endif %}
+
+
+{% endblock %}

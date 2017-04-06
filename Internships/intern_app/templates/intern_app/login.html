@@ -1,0 +1,12 @@
+{% extends 'intern_app/base.html' %}
+
+{% block content %}
+
+<form action="" method="post">
+
+  {% csrf_token %}
+  {{ form }}
+
+  <input type="submit" value="Zaloguj" />
+</form>
+{% endblock %}

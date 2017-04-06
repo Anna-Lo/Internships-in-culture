@@ -1,24 +1,25 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.models import User
+from django.shortcuts import render, reverse
 
 PROVINCE_CHOICES = (
-('pom', 'pomorskie'),
-('wm', 'warmińsko-mazurskie'),
-('pod', 'podlaskie'),
-('maz', 'mazowieckie'),
-('lbl', 'lubelskie'),
-('pdk', 'podkarpackie'),
-('mp', 'małopolskie'),
-('sl', 'śląskie'),
-('op', 'opolskie'),
-('dsl', 'dolnośląskie'),
-('lub', 'lubuskie'),
-('zp', 'zachodniopomorskie'),
-('wkp', 'wielkopolskie'),
-('kpo', 'kujawsko-pomorskie'),
-('ldz', 'łódzkie'),
-('sw', 'świętokrzyskie'),
+('pomorskie', 'pomorskie'),
+('warmińsko-mazurskie', 'warmińsko-mazurskie'),
+('podlaskie', 'podlaskie'),
+('mazowieckie', 'mazowieckie'),
+('lubelskie', 'lubelskie'),
+('podkarpackie', 'podkarpackie'),
+('małopolskie', 'małopolskie'),
+('śląskie', 'śląskie'),
+('opolskie', 'opolskie'),
+('dolnośląskie', 'dolnośląskie'),
+('lubuskie', 'lubuskie'),
+('zachodniopomorskie', 'zachodniopomorskie'),
+('wielkopolskie', 'wielkopolskie'),
+('kujawsko-pomorskie', 'kujawsko-pomorskie'),
+('łódzkie', 'łódzkie'),
+('świętokrzyskie', 'świętokrzyskie'),
 )
 
 STUDIES_CHOICES = (
@@ -47,12 +48,23 @@ STUDIES_CHOICES = (
 
 class Institution(models.Model):
     user = models.OneToOneField(User, unique=True)
-    name = models.CharField(max_length=128)
-    description = models.TextField()
-    city = models.CharField(max_length=64)
-    province = models.CharField(max_length=64, choices = PROVINCE_CHOICES)
+    name = models.CharField(max_length=128, blank=True)
+    description = models.TextField(blank=True)
+    city = models.CharField(max_length=64, blank=True)
+    address_street = models.CharField(max_length=128, blank=True)
+    address_no = models.SlugField(max_length=4, blank=True)
+    province = models.CharField(max_length=64, choices = PROVINCE_CHOICES, blank=True)
+
+    def __str__(self):
+        return "{}, {}".format(self.name, self.city)
+
+    def get_absolute_url(self):
+        return reverse('institution-info', kwargs={'institution_id': self.id})
+
+
 
 class Offer(models.Model):
+    name = models.CharField(max_length=256, help_text='Podaj stanowisko lub nazwę projektu')
     institution = models.ForeignKey(Institution)
     data_start = models.DateField()
     data_end = models.DateField()
@@ -63,7 +75,8 @@ class Offer(models.Model):
     studies = models.CharField(max_length=64, choices = STUDIES_CHOICES)
     studies_other = models.CharField(max_length=64, blank=True)
 
-class Student(models.Model):
-    user = models.OneToOneField(User, unique=True)
-    name = models.CharField(max_length=64)
-    surname = models.CharField(max_length=64)
+    def __str__(self):
+        return "{}".format(self.name)
+
+    def get_absolute_url(self):
+        return reverse('offer-info', kwargs={'offer_id': self.id})

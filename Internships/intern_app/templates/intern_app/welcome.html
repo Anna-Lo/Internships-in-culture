@@ -1,0 +1,15 @@
+{% extends 'intern_app/base.html' %}
+
+
+{% block content %}
+
+<h4>Witaj na stronie ofert staży w instytucjach kultury.</h4>
+<h4>Możesz tutaj przeglądać oferty jako student, a jesli reprezentujesz instytucję - możesz dodać swoją ofertę stażową.</h4>
+
+
+<p>Aby dodać nową ofertę:</p>
+<form method="get" action="{% url 'login' %}"><button type="submit">Zaloguj się</button></form>
+<p>Aby założyć konto:</p>
+<form method="get" action="{% url 'register' %}"><button type="submit">Zarejestruj się</button></form>
+
+{% endblock %}

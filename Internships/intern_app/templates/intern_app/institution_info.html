@@ -1,0 +1,29 @@
+{% extends 'intern_app/base.html' %}
+
+
+{% block content %}
+<h3>{{institution.name}}</h3>
+
+<ol>
+    <p>Opis: {{ institution.description }} </p>
+    <p>Miejscowość: {{ institution.city }} </p>
+    <p>Adres: {{ institution.address_street}} {{ institution.address_no }} </p>
+    <p>Województwo: {{ institution.get_province_display }} </p>
+    <h4><a href="{% url 'offers-by-institutions' institution_id=institution.id %}">Zobacz oferty stażowe</h4>
+
+
+    {% if user == institution.user %}
+    <a href="{% url 'add-offer' %}">Dodaj ofertę</a>
+    {% endif %}
+</ol>
+
+
+
+{% if user.is_authenticated %}
+  <strong>Zalogowany: </strong>{{ user }} </br>
+  <a href="{% url 'logout' %}">Wyloguj</a>
+{% else %}
+    <strong><a href="{% url 'login' %}">Zaloguj</a></strong>
+{% endif %}
+
+{% endblock %}
