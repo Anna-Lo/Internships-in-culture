@@ -27,8 +27,9 @@ class AddInstitutionForm(forms.ModelForm):
         fields = '__all__'
 
 class AddOfferForm(forms.ModelForm):
+
     name = forms.CharField(max_length=256, label='Stanowisko lub nazwa projektu')
-    institution = forms.ModelChoiceField(queryset=Institution.objects.all(),label='Instytucja')
+    institution = forms.ModelChoiceField(queryset=Institution.objects.all(),label='Instytucja', widget=forms.HiddenInput())
     data_start = forms.DateField(label='Początek stażu')
     data_end = forms.DateField(label='Koniec stażu')
     hours = forms.IntegerField(label='Długość stażu w godz.')
@@ -61,17 +62,6 @@ class RegisterForm(forms.ModelForm):
         cleaned_data['password'] = make_password(raw_password)
         return cleaned_data
 
-    # def save(self, commit=True):
-    #     user = super(RegisterForm, self).save(commit=False)
-    #     username = cleaned_data["username"]
-    #     password = cleaned_data['password']
-    #     password2 = cleaned_data['password2']
-    #     if password == password2:
-    #         if commit:
-    #             user.save()
-    #             return user
-    #     else:
-    #         raise forms.ValidationError('Nieprawidłowe dane logowania')
 
 class LoginForm(forms.Form):
     użytkownik = forms.CharField(max_length=64)

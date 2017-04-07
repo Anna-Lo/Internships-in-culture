@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, reverse
 
 PROVINCE_CHOICES = (
+('pustka', ''),
 ('pomorskie', 'pomorskie'),
 ('warmińsko-mazurskie', 'warmińsko-mazurskie'),
 ('podlaskie', 'podlaskie'),
@@ -23,6 +24,7 @@ PROVINCE_CHOICES = (
 )
 
 STUDIES_CHOICES = (
+('0', ''),
 ('1', 'animacja kultury'),
 ('2', 'antropologia'),
 ('3', 'archeologia'),

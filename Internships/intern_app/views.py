@@ -128,7 +128,8 @@ class MainView(View):
 class AddOfferView(LoginRequiredMixin, View):
 
     def get(self, request):
-        form = AddOfferForm()
+        u = Institution.objects.get(user=request.user)
+        form = AddOfferForm(initial={'institution': u})
         ctx = {'form': form}
         return render(request, 'intern_app/offer_form.html', ctx)
 
@@ -167,7 +168,7 @@ class ShowOffersView(View):
 class SearchOffersView(View):
     def get(self, request):
         form = SearchOffersForm()
-        ctx = {'form': SearchOffersForm()}
+        ctx = {'form': form}
         return render(request, 'intern_app/search_offers.html',ctx )
 
     def post(self, request):
@@ -178,18 +179,29 @@ class SearchOffersView(View):
             institution_city = form.cleaned_data['institution_city']
             institution_province = form.cleaned_data['institution_province']
             offer_studies = form.cleaned_data['offer_studies']
-            institutions_by_name = Institution.objects.filter(name__icontains=institution_name)
-            offers_by_institution_name = Offer.objects.filter(institution=institutions_by_name)
-            institutions_by_city = Institution.objects.filter(city__icontains=institution_city)
-            institutions_by_province = Institution.objects.filter(province=institution_province)
-            offers_by_studies = Offer.objects.filter(studies=offer_studies)
+            if institution_name:
+                institutions_by_name = Institution.objects.filter(name__icontains=institution_name)
+            else:
+                institutions_by_name = []
+            if institution_city:
+                institutions_by_city = Institution.objects.filter(city=institution_city)
+            else:
+                institutions_by_city = []
+            if institution_province:
+                institutions_by_province = Institution.objects.filter(province=institution_province)
+            else:
+                institutions_by_province = []
+            if offer_studies:
+                offers_by_studies = Offer.objects.filter(studies=offer_studies)
+            else:
+                offers_by_studies = []
             ctx = {'institutions_by_name': institutions_by_name,
                     'institutions_by_city': institutions_by_city,
                     'institutions_by_province': institutions_by_province,
                     'offers_by_studies': offers_by_studies,
-                    'offers_by_institution_name': offers_by_institution_name,
                     'form': form}
-            return render(request, 'intern_app/search_results.html',ctx)
+            return render(request, 'intern_app/search_offers.html', ctx)
+
 
 class OffersByInstitutionView(View):
     def get(self, request, institution_id):

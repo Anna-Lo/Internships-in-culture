@@ -2,24 +2,26 @@
 
 
 {% block content %}
-<h3>{{offer.institution.name}}</h3>
 
 <ol>
 
+
     {% for i in institutions_by_name %}
-        {{ i.name }} 
+      <li>{{ i.name }}</li>
     {% endfor %}
 
-    {% for offer in offers_by_institution_name %}
-      {{ offer.name }}
-    {% endfor %}
 
     {% for i in institutions_by_city %}
-      {{ i.name }} {{ i.offer_set}} {{ i.city }}
+      <li>{{ i.name }}</li>
     {% endfor %}
 
+
     {% for i in institutions_by_province %}
-      {{ i.name }} {{ i.offer_set }} {{ i.province }}
+      <li>{{ i.name }}</li>
+    {% endfor %}
+
+    {% for o in offers_by_studies %}
+      <li>{{ o.institution.name }}</li>
     {% endfor %}
 
 </ol>

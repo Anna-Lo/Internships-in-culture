@@ -10,4 +10,34 @@
   <input type="submit" value="Szukaj" />
 </form>
 
+<ol>
+
+    {% for institution in institutions_by_name %}
+      <li><a href="{% url 'institution-info' institution_id=institution.id %}">{{ institution.name }}</a></li>
+    {% endfor %}
+
+
+    {% for institution in institutions_by_city %}
+      <li><a href="{% url 'institution-info' institution_id=institution.id %}">{{ institution.name }}</a></li>
+    {% endfor %}
+
+
+    {% for institution in institutions_by_province %}
+      <li><a href="{% url 'institution-info' institution_id=institution.id %}">{{ institution.name }}</a></li>
+    {% endfor %}
+
+
+    {% for offer in offers_by_studies %}
+      <li><a href="{% url 'offer-info' offer_id=offer.id %}">{{ offer.institution.name }}</a></li>
+    {% endfor %}
+
+</ol>
+
+{% if user.is_authenticated %}
+  <strong>Zalogowany: </strong>{{ user }} </br>
+  <a href="{% url 'logout' %}">Wyloguj</a>
+{% else %}
+    <strong><a href="{% url 'login' %}">Zaloguj</a></strong>
+{% endif %}
+
 {% endblock %}
